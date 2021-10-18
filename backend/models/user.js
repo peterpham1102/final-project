@@ -26,9 +26,9 @@ const userSchema = new Schema(
       ], default: ROLE.BUYER
     },
     image: {type: String},
-    store_owned: {type: mongoose.Types.ObjectId, ref: 'Store'},
-    orders_placed: {type: mongoose.Types.ObjectId, ref: 'Order'},
-    orders_shipped: {type: mongoose.Types.ObjectId, ref: 'Shipping'}
+    store_owned_id: {type: mongoose.Types.ObjectId, ref: 'Store'},
+    orders_placed_id: [{type: mongoose.Types.ObjectId, ref: 'Order'}],
+    orders_shipped_id: [{type: mongoose.Types.ObjectId, ref: 'Shipping'}]
     
   },
   {

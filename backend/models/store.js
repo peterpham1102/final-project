@@ -9,10 +9,10 @@ const StoreSchema = new Schema(
     description: { type: String, required: true },
     voucher: { type: String, required: true },
     image: { type: String, required: true },
-    foods: [{ type: mongoose.Types.ObjectId, ref: 'Food' }],
-
+    foods_id: [{ type: mongoose.Types.ObjectId, ref: 'Food' }],
+    orders_id: [{type: mongoose.Types.ObjectId, ref: 'Order'}],
     rating: { type: Number },
-    owner: { type: mongoose.Types.ObjectId, ref: 'User', required: true },
+    owner_id: { type: mongoose.Types.ObjectId, ref: 'User', required: true },
     status: { type: String, required: true },
   },
   {
