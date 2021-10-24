@@ -5,7 +5,10 @@ import { Grid, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 
 import { AuthContext } from "../../App";
+import CreateFood from "./CreateFood";
+import EditFood from "./EditFood";
 import EditStore from "./EditStore";
+import ManageFood from "./ManageFood";
 import ManageOrder from "./ManageOrder";
 import ManageStore from "./ManageStore";
 import Statistics from "./Statistics";
@@ -97,6 +100,12 @@ function SellerContent() {
                   </Typography>
                 </div>
               </Link>
+              <Link to="/foods" style={{ textDecoration: "none" }}>
+                <div className={classes.item}>
+                  <AccountBox className={classes.icon} />
+                  <Typography className={classes.text}>Manage Foods</Typography>
+                </div>
+              </Link>
               <Link to="/statistics" style={{ textDecoration: "none" }}>
                 <div className={classes.item}>
                   <Insights  className={classes.icon} />
@@ -113,8 +122,12 @@ function SellerContent() {
               <Route exact path="/editStore/:id" component={EditStore} />
               {/* <Route exact path="/details/" component={DetailStore} /> */}
               
-              <Route exact path="/editStores/:id" component={EditStore} />
               <Route exact path="/orders" component={ManageOrder} />
+              
+              <Route exact path="/foods" component={ManageFood} />
+              <Route exact path="/createFood" component={CreateFood} />
+              <Route exact path="/editFood/:id" component={EditFood} />
+
               <Route exact path="/statistics" component={Statistics} />
 
               

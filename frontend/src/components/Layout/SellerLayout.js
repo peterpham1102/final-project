@@ -16,7 +16,7 @@ function SellerLayout({ children }) {
     <div>
       <Header/>
       <div className={classes.page}>{children}</div>
-      <Footer />
+      {/* <Footer /> */}
       
     </div>
   )

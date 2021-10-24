@@ -1,10 +1,18 @@
+import Controls from '../../shared/components/UIElements/Controls'
+import FoodList from './FoodList'
 import React from 'react'
+import ShopInfo from './ShopInfo'
+import { Typography } from '@material-ui/core'
 
-function DetailStore() {
+function DetailStore(props) {
   return (
-    <div>
-      Detail 
-    </div>
+    <>
+    <ShopInfo storeOwnedId={props.storeOwnedId}  />
+    
+    
+    <FoodList storeOwnedId={props.storeOwnedId}/>
+    
+    </>
   )
 }
 

@@ -1,10 +1,10 @@
 import { Form, useForm } from "../../shared/hooks/useForm";
 import { Grid, TextField } from "@material-ui/core";
 import { React, useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 
 import Controls from "../../shared/components/UIElements/Controls";
 import api from "../../shared/util/api";
-import { useHistory } from "react-router-dom";
 
 // const initialValues = {
 //   id: "1",
@@ -18,7 +18,8 @@ import { useHistory } from "react-router-dom";
 
 function EditUser() {
   const history = useHistory();
-  const userId = window.location.pathname.split("/")[3];
+  // const id = window.location.pathname.split("/")[3];
+  let {id} = useParams()
   const [data, setData] = useState({});
   // const[initialValues, setInitialValues] = useState();
   
@@ -41,17 +42,16 @@ function EditUser() {
 
   useEffect(() => {
     setLoading(true);
-    // console.log(userId);
+    // console.log(id);
     const getUser = async () => {
       const res = await api({
-        url: `/users/user/${userId}`,
+        // url: `/users/user/${id}`,
+        url: `/users/user/${id}`,
         method: "GET",
       });
       try {
         if (res.success) {
           setData(res.user);
-          // setInitialValues(res.user)
-          
           setLoading(false);
         }
       } catch (err) {
@@ -59,7 +59,7 @@ function EditUser() {
       }
     };
     getUser();
-  }, [userId]);
+  }, [id]);
   // console.log("data ", data) 
 
   const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
@@ -73,7 +73,7 @@ function EditUser() {
     console.log("values: ", values);
     
     const res = await api({
-      url: `/users/${userId}`,
+      url: `/users/${id}`,
       method: "PATCH",
       data: values
     });

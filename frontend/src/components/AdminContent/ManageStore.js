@@ -77,6 +77,8 @@ function ManageStore() {
     { id: "description", label: "Description" },
     { id: "rating", label: "Rating" },
     { id: "image", label: "Image" },
+    { id: "status", label: "Status" },
+    
     { id: "actions", label: "Actions", disableSorting: true },
   ];
 
@@ -124,6 +126,7 @@ function ManageStore() {
               <TableCell>
                 <img src={item.image} height="50px" width="50px" />
               </TableCell>
+              <TableCell>{item.status}</TableCell>
               <TableCell>
                 <Link to={"/editStore/" + item.key}>
                   <Controls.ActionButton>

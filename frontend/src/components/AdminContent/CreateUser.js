@@ -97,7 +97,7 @@ function CreateUser(props) {
       ...temp,
     });
 
-    if (fieldValues == values) return Object.values(temp).every((x) => x == "");
+    if (fieldValues === values) return Object.values(temp).every((x) => x === "");
   };
 
 
@@ -166,20 +166,11 @@ function CreateUser(props) {
             />
             </Controls.Button>
 
-            {/* <label htmlFor="contained-button-file">
-              <Input
-                accept="image/*"
-                id="contained-button-file"
-                multiple
-                type="file"
-              />
-              <Button variant="contained" component="span">
-                Upload
-              </Button>
-            </label> */}
-
             <div>
-              <img src={url} width="300px" height="300px" />
+              <img src={url || "http://via.placeholder.com/300"} height="300px" width="300px" alt='user-image' />
+            </div>
+            <div>
+      
             </div>
 
             <Controls.Input
