@@ -7,7 +7,7 @@ const StoreSchema = new Schema(
     name: { type: String, required: true },
     location: { type: String, required: true },
     description: { type: String, required: true },
-    voucher: { type: String, required: true },
+    voucher: { type: String },
     image: { type: String, required: true },
     foods_id: [{ type: mongoose.Types.ObjectId, ref: 'Food' }],
     orders_id: [{type: mongoose.Types.ObjectId, ref: 'Order'}],

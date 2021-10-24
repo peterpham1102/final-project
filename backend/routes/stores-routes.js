@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.use(checkAuthen);
 router.get('/', storeControllers.getStores);
-router.get('/:id', storeControllers.getStoreById);
+router.get('/store/:id', storeControllers.getStoreById);
 
 router.get('/user/:id', storeControllers.getStoreByUserId);
 

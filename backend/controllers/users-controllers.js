@@ -182,7 +182,7 @@ const login = async (req, res, next) => {
         userId: existingUser.id,
         email: existingUser.email,
         role: existingUser.role,
-        storeOwnedId: existingUser.store_owned_id
+        // storeOwnedId: existingUser.store_owned_id
       },
       "putang_ina_mo_bobo",
       { expiresIn: "10h" }
@@ -208,7 +208,7 @@ const login = async (req, res, next) => {
     email: existingUser.email,
     role: existingUser.role,
     token: token,
-    storeOwnedId: existingUser.store_owned_id,
+    // storeOwnedId: existingUser.store_owned_id,
     success: 1,
   });
 };

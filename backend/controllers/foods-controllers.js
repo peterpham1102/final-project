@@ -86,6 +86,7 @@ const createFood = async (req, res, next) => {
     return next(error);
   }
   res.status(201).json({
+    success: 1,
     food: createdFood,
   });
 };
@@ -128,14 +129,46 @@ const getFoodById = async (req, res, next) => {
   });
 };
 
+const getFoodsByStoreId = async (req, res, next) => {
+  const storeId = req.params.id;
+  let storeWithFoods;
+  try {
+    storeWithFoods = await Store.findById(storeId)
+    .populate('foods_id')
+    .sort({ createdAt: -1 });
+  } catch (err) {
+    console.log("err: ", err);
+    const error = new HttpError("Fetching data failed, please try again!", 500);
+    res.json({
+      success: 0,
+      message: "Failed",
+    });
+    return next(error);
+  }
+
+  // if (!storeWithFoods || storeWithFoods.length === 0) {
+  //   return next(
+  //     new HttpError("Could not find foods for provided store id", 404)
+  //   );
+  // }
+  res.json({
+    success: 1,
+    foods: storeWithFoods.foods_id.map((food) =>
+      food.toObject({ getters: true })
+    ),
+  });
+}
+
 const updateFood = async (req, res, next) => {
-  const erros = validationResult(req);
+  const errors = validationResult(req);
   if (!errors.isEmpty()) {
     throw new HttpError(
       'Invalid inputs, please try again!', 422
     );
   }
-  const {name, description, price, image} = req.body;
+  const {name, description, price,
+    //  image
+    } = req.body;
   const foodId = req.params.id;
   let food;
   try {
@@ -150,7 +183,7 @@ const updateFood = async (req, res, next) => {
   food.name = name;
   food.description = description;
   food.price = price;
-  food.image = image;
+  // food.image = image;
 
   try {
     await food.save();
@@ -171,4 +204,5 @@ const updateFood = async (req, res, next) => {
 exports.createFood = createFood;
 exports.getFoods = getFoods;
 exports.getFoodById = getFoodById;
+exports.getFoodsByStoreId = getFoodsByStoreId
 exports.updateFood = updateFood;

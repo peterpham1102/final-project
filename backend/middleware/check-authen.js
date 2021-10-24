@@ -19,7 +19,7 @@ const checkAuthen = (req, res, next) => {
       userId: decodedToken.userId,
       role: decodedToken.role,
       email: decodedToken.email,
-      storeOwnedId: decodedToken.storeOwnedId
+      // storeOwnedId: decodedToken.storeOwnedId
       
     };
     // console.log(req.userData);

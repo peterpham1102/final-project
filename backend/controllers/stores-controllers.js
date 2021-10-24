@@ -71,6 +71,7 @@ const createStore = async(req, res, next) => {
     return next(error);
   }
   res.status(201).json({
+    success: 1,
     store: createdStore
   })
   
@@ -140,7 +141,46 @@ const getStoreByUserId = async(req, res, next) => {
 };
 
 const updateStore = async(req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    throw new HttpError("Invalid inputs, please try again!", 422);
+  }
 
+  const { name, location, description, 
+    // image 
+  } = req.body;
+  const storeId = req.params.id;
+  console.log(req.body);
+  let store;
+  try {
+    store = await Store.findById(storeId);
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not update store!2",
+      500
+    );
+    return next(error);
+  }
+
+  store.name = name;
+  store.location = location;
+  store.description = description;
+  // store.image = image;
+
+  try {
+    await store.save();
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not update store!3",
+      500
+    );
+    return next(error);
+  }
+
+  res.status(200).json({
+    success: 1,
+    store: store.toObject({ getters: true }),
+  });
 };
 
 
