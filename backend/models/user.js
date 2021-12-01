@@ -28,8 +28,8 @@ const userSchema = new Schema(
     image: {type: String},
     store_owned_id: {type: mongoose.Types.ObjectId, ref: 'Store'},
     orders_placed_id: [{type: mongoose.Types.ObjectId, ref: 'Order'}],
-    orders_shipped_id: [{type: mongoose.Types.ObjectId, ref: 'Shipping'}]
-    
+    orders_shipped_id: [{type: mongoose.Types.ObjectId, ref: 'Shipping'}],
+    feedbacks_id: [{type: mongoose.Types.ObjectId, ref: 'Feedback'}]
   },
   {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }

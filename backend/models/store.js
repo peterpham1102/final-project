@@ -14,6 +14,7 @@ const StoreSchema = new Schema(
     rating: { type: Number },
     owner_id: { type: mongoose.Types.ObjectId, ref: 'User', required: true },
     status: { type: String, required: true },
+    feedbacks_id: [{type: mongoose.Types.ObjectId, ref: 'Feedback'}]
   },
   {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },

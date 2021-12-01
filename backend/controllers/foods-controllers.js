@@ -23,6 +23,7 @@ const createFood = async (req, res, next) => {
     rating,
     image,
     price,
+    orders_count: 0,
     status: "Active",
   });
 
@@ -47,7 +48,8 @@ const createFood = async (req, res, next) => {
   console.log(req.body.categories_id);
   // console.log('before ' + categories);
   try {
-    categories = await Category.find({ _id: categories_id });
+    // categories = await Category.find({ _id: categories_id });
+    categories = await Category.findById(categories_id)
   } catch (err) {
     const error = new HttpError("Create food failed, please try again!", 500);
     return next(error);
@@ -71,19 +73,24 @@ const createFood = async (req, res, next) => {
     await createdFood.save({ session: sess });
     
     store.foods_id.push(createdFood);
-    categories.forEach(async (cat) => {
-      cat.foods_id.push(createdFood);
-      await cat.save({ session: sess });
-    });
+    
+    // categories.forEach(async (cat) => {
+      categories.foods_id.push(createdFood);
+
+    //   await cat.save({ session: sess });
+    // });
+
     // for (cat in categories) {
     //   categories[cat].foods_id.push(createdFood);
     //   categories[cat].save({ session: sess });
     // }
     await store.save({ session: sess });
+    await categories.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
-    const error = new HttpError("Creating food failed, please try again!", 500);
-    return next(error);
+    // const error = new HttpError("Creating food failed, please try again!", 500);
+    // return next(error);
+    console.log(err)
   }
   res.status(201).json({
     success: 1,
@@ -102,6 +109,7 @@ const getFoods = async (req, res, next) => {
   }
   res.json({
     foods: foods.map((food) => food.toObject({ getters: true })),
+    
   });
 };
 
@@ -135,7 +143,7 @@ const getFoodsByStoreId = async (req, res, next) => {
   try {
     storeWithFoods = await Store.findById(storeId)
     .populate('foods_id')
-    .sort({ createdAt: -1 });
+    .sort({ created_at: -1 });
   } catch (err) {
     console.log("err: ", err);
     const error = new HttpError("Fetching data failed, please try again!", 500);
@@ -200,6 +208,9 @@ const updateFood = async (req, res, next) => {
   });
   
 }
+
+
+
 
 exports.createFood = createFood;
 exports.getFoods = getFoods;

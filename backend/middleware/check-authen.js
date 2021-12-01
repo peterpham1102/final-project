@@ -20,10 +20,7 @@ const checkAuthen = (req, res, next) => {
       role: decodedToken.role,
       email: decodedToken.email,
       // storeOwnedId: decodedToken.storeOwnedId
-      
     };
-    // console.log(req.userData);
-    // console.log(req.userData.role);
     next();
   } catch (err) {
     console.log(err);

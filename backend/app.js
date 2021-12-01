@@ -7,6 +7,7 @@ const storesRoutes = require('./routes/stores-routes');
 const foodsRoutes = require('./routes/foods-routes');
 const ordersRoutes = require('./routes/orders-routes');
 const shippingsRoutes = require('./routes/shippings-routes');
+const chatbotRoutes = require('./routes/chatbot-routes');
 
 const app = express();
 
@@ -31,7 +32,8 @@ app.use('/api/categories', categoriesRoutes);
 app.use('/api/stores', storesRoutes);
 app.use('/api/foods', foodsRoutes);
 app.use('/api/orders', ordersRoutes);
-// app.use('/api/shippings', shippingsRoutes);
+app.use('/api/shippings', shippingsRoutes);
+app.use('/api/chatbot', chatbotRoutes);
 
 
 

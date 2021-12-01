@@ -80,7 +80,7 @@ const createStore = async(req, res, next) => {
 const getStores = async(req, res, next) => {
   let stores;
   try {
-    stores = await Store.find().sort({"created_at": -1});
+    stores = await Store.find().sort({ created_at: -1 })
   } catch (err) {
     const error = new HttpError('Fetching data failed, please try again!', 500);
     return next(error);
@@ -121,7 +121,7 @@ const getStoreByUserId = async(req, res, next) => {
   const userId = req.params.id;
   let userWithStore;
   try {
-    userWithStore = await User.findById(userId);
+    userWithStore = await User.findById(userId).sort({ created_at: -1 })
     if (!userWithStore.store_owned_id) {
       return next(new HttpError("Could not find any store for provided id!", 404));
     }
@@ -183,6 +183,33 @@ const updateStore = async(req, res, next) => {
   });
 };
 
+const searchStoreByFoodName = async (req, res, next) => {
+  const key = req.params.key
+  console.log("key ", key)
+  
+  let searchFoods;
+  let storesOfSearchFoodsId
+  let storeWithFood
+  let listStores = []
+  try {
+    searchFoods = await Food.find({name: { $regex: '.*' + key + '.*' } })
+    
+  } catch (err) {
+    console.log("Can't find any food by provided key words")
+  }
+  storesOfSearchFoodsId = searchFoods.map(food => food.store_id)
+  for (const storeId of storesOfSearchFoodsId) {
+    storeWithFood = await Store.findById(storeId)
+    listStores.push(storeWithFood)
+  }
+
+  res.json({
+    stores: listStores.map(store => store.toObject()),
+    
+  })
+
+}
+
 
 
 
@@ -193,3 +220,4 @@ exports.getStores = getStores;
 exports.getStoreById = getStoreById;
 exports.getStoreByUserId = getStoreByUserId;
 exports.updateStore = updateStore;
+exports.searchStoreByFoodName = searchStoreByFoodName;

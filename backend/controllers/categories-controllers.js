@@ -32,7 +32,7 @@ const createCategory = async (req, res, next) => {
 const getCategories = async (req, res, next) => {
   let categories;
   try {
-    categories = await Category.find().sort({ createdAt: -1 });
+    categories = await Category.find().sort({ created_at: -1 });
   } catch (err) {
     const error = new HttpError(
       "Fetching data failed, please try again!",
@@ -44,6 +44,7 @@ const getCategories = async (req, res, next) => {
     categories: categories.map((category) =>
       category.toObject({ getters: true })
     ),
+    success : 1
   });
 };
 
