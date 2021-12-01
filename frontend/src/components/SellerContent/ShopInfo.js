@@ -16,11 +16,18 @@ import api from "../../shared/util/api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: "#ffffff"
+    backgroundColor: '#ebe9e6',
+    margin: 5,
+    padding: 20
   },
   card: {
+    // margin: theme.spacing(3)
   },
-  list: {},
+  list: {
+    textAlign: 'left',
+    margin: theme.spacing(3),
+     
+  },
 }));
 
 function ShopInfo(props) {
@@ -58,7 +65,7 @@ function ShopInfo(props) {
     <>
       
       {shopData && !loading && (<Grid container classes={classes.root}>
-        <Grid item xs={5}>
+        <Grid item xs={5} style={{padding: 5, margin: 5}}>
           <Card classes={classes.card}>
             <CardMedia
               component="img"
@@ -69,7 +76,7 @@ function ShopInfo(props) {
             />
           </Card>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={4} style={{padding: 5, margin: 10}}>
           <List classes={classes.list}>
             <ListItemText primary={shopData.name} />
             <ListItemText primary={shopData.location} />

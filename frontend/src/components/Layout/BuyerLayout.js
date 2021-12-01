@@ -2,6 +2,7 @@ import Footer from "../../shared/util/Footer/Footer";
 import Header from "../../shared/util/Header/Header";
 import React from "react";
 import { makeStyles } from "@material-ui/core";
+import BuyerHeader from "../../shared/util/Header/Header";
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -14,9 +15,10 @@ function BuyerLayout({ children }) {
 
   return (
     <div>
-      <Header/>
+      <BuyerHeader/>
+      {/* <Header /> */}
       <div className={classes.page}>{children}</div>
-      <Footer />
+      {/* <Footer /> */}
       
     </div>
   )

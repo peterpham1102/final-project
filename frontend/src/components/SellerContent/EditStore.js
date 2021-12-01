@@ -12,6 +12,8 @@ function EditStore() {
   let {id} = useParams();
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
+  // const [image, setImage] = useState();
+  // const [url, setUrl] = useState("");
 
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
@@ -39,6 +41,7 @@ function EditStore() {
         // if (res.success) {
           setData(res.store);
           setLoading(false);
+
         // }
       } catch (err) {
         console.log(err);
@@ -112,7 +115,26 @@ function EditStore() {
               onChange={handleInputChange}
               error={errors.description}
             />
+            {/* <Controls.Button
+              variant="contained"
+              component="label"
+              text="Upload Image"
+            >
+            <input
+              id="image"
+              accept="image/*"
+              type="file"
+              hidden
+              name="image"
+              value={values.image}
+              onChange={(e) => setImage(e.target.files[0])}
+            />
+            </Controls.Button>
+
             <div>
+              <img src={url || "http://via.placeholder.com/300"} height="300px" width="300px" alt="store-image" />
+            </div> */}
+            <div style={{textAlign: 'center'}}>
               <Controls.Button type="submit" text="Submit" />
             </div>
             

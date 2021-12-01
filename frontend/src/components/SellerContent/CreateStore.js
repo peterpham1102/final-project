@@ -58,8 +58,10 @@ function CreateStore() {
   console.log(image)
 
   const handleSubmit = async (event) => {
-    
+    console.log("values ", values)
+    event.preventDefault();
     console.log(url)
+    if(validate()) {
     const res = await api({
       url: "stores",
       method: "POST",
@@ -72,19 +74,26 @@ function CreateStore() {
       if (res.success) {
         console.log("Create store successfully!");
         history.push("/");
-        resetForm();
+        
+        
       }
     } catch (err) {
       console.log(err);
     }
+    window.location.reload(true)
+    resetForm();
+  }
   };
 
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     if ("name" in fieldValues)
       temp.name = fieldValues.name ? "" : "This field is required.";
-     
-  
+    if ("location" in fieldValues)
+      temp.location = fieldValues.location ? "" : "This field is required.";
+    if ("description" in fieldValues)
+      temp.description = fieldValues.description ? "" : "This field is required.";
+    
     setErrors({
       ...temp,
     });
@@ -174,7 +183,7 @@ function CreateStore() {
             /> */}
 
 
-            <div>
+            <div style={{textAlign: 'center'}}>
               <Controls.Button type="submit" text="Submit" />
             </div>
           </Grid>

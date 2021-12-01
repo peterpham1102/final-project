@@ -3,7 +3,8 @@ import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import { Container, makeStyles } from "@material-ui/core";
 import { Grid, Typography } from "@mui/material";
 import React, { useEffect } from "react";
-
+import FoodBankIcon from '@mui/icons-material/FoodBank';
+import ReceiptIcon from '@mui/icons-material/Receipt';
 import { AuthContext } from "../../App";
 import CreateFood from "./CreateFood";
 import EditFood from "./EditFood";
@@ -12,16 +13,7 @@ import ManageFood from "./ManageFood";
 import ManageOrder from "./ManageOrder";
 import ManageStore from "./ManageStore";
 import Statistics from "./Statistics";
-
-// import CreateStore from "./CreateStore";
-
-
-
-
-
-
-
-
+import { Receipt } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -88,13 +80,14 @@ function SellerContent() {
             <Container className={classes.container}>
               <Link to="/" style={{ textDecoration: "none" }}>
                 <div className={classes.item}>
-                  <AccountBox className={classes.icon} />
+                <Store className={classes.icon} />
+                 
                   <Typography className={classes.text}>My Store</Typography>
                 </div>
               </Link>
               <Link to="/orders" style={{ textDecoration: "none" }}>
                 <div className={classes.item}>
-                  <Store className={classes.icon} />
+                <Receipt className={classes.icon} />
                   <Typography className={classes.text}>
                     Manage Orders
                   </Typography>
@@ -102,7 +95,7 @@ function SellerContent() {
               </Link>
               <Link to="/foods" style={{ textDecoration: "none" }}>
                 <div className={classes.item}>
-                  <AccountBox className={classes.icon} />
+                  <FoodBankIcon className={classes.icon} />
                   <Typography className={classes.text}>Manage Foods</Typography>
                 </div>
               </Link>

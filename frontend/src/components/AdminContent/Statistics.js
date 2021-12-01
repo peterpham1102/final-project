@@ -12,7 +12,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import React, { useCallback, useState } from "react";
+import React, { 
+  useCallback, useState, useEffect } from "react";
 
 import { Grid } from "@material-ui/core";
 
@@ -143,8 +144,13 @@ const renderCustomizedLabel = ({
 };
 
 function Statistics() {
+  
+
   return (
     <>
+    
+    <Grid container >
+      <Grid item xs={6}>
       <div>
         <LineChart
           width={500}
@@ -171,8 +177,14 @@ function Statistics() {
           <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
         </LineChart>
       </div>
+      </Grid>
+
+
+    </Grid>
+    <Grid container>
+    <Grid item xs={6}>
       <div>
-        <PieChart width={400} height={400}>
+        <PieChart width={600} height={600}>
           <Pie
             data={data2}
             cx={200}
@@ -192,7 +204,11 @@ function Statistics() {
           </Pie>
         </PieChart>
       </div>
-      <div>
+      </Grid>
+    </Grid>
+      
+      
+      {/* <div>
         <ComposedChart
           width={500}
           height={400}
@@ -212,7 +228,7 @@ function Statistics() {
           <Bar dataKey="uv" barSize={20} fill="#413ea0" />
           <Line type="monotone" dataKey="uv" stroke="#ff7300" />
         </ComposedChart>
-      </div>
+      </div> */}
     </>
   );
 }

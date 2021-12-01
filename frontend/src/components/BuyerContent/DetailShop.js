@@ -13,11 +13,17 @@ import { React, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../App";
 import FoodList from "./FoodList";
 import { Rating } from "@mui/material";
+import ShopBill from "./ShopBill";
 import ShopInfo from "./ShopInfo";
 import api from "../../shared/util/api";
 import { useParams } from "react-router-dom";
+import { useCart, CartProvider } from 'react-use-cart'
 
-const useStyles = makeStyles((theme) => {});
+const useStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: theme.spacing(10),
+  },
+}));
 
 function DetailShop() {
   const classes = useStyles();
@@ -51,11 +57,14 @@ function DetailShop() {
           url: `foods/store/${id}`,
           method: "GET",
         });
-        if (res.success) {
+        // if (res.success) {
+          res.foods.forEach((element) => {
+            element.key = element._id;
+          });
           setFoodData(res.foods);
           console.log("res.foods ", res.foods);
           setLoading(false);
-        }
+        // }
       } catch (err) {
         console.log(err);
       }
@@ -64,12 +73,22 @@ function DetailShop() {
   }, [id]);
   console.log("shopData ", shopData);
 
-  return <>
-  {!loading && shopData && <ShopInfo data={shopData}
-   />}
-  {!loading && foodData && <FoodList data={foodData} />}
-   
-  </>;
+  return (
+    <>
+      <Grid container spacing={4} className={classes.root}>
+        <Grid item xs={2} sm={2}></Grid>
+        <Grid item xs={7} sm={7}>
+          {!loading && shopData && <ShopInfo data={shopData} />}
+        </Grid>
+        <Grid item xs={3} sm={3}></Grid>
+      </Grid>
+      <CartProvider>
+      <Grid container  >
+        {!loading && foodData && <FoodList data={foodData}  />}
+      </Grid>
+      </CartProvider>
+    </>
+  );
 }
 
 export default DetailShop;

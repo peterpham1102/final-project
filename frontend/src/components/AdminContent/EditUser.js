@@ -1,20 +1,13 @@
 import { Form, useForm } from "../../shared/hooks/useForm";
-import { Grid, TextField } from "@material-ui/core";
+import { Grid, 
+ } from "@material-ui/core";
 import { React, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
 import Controls from "../../shared/components/UIElements/Controls";
 import api from "../../shared/util/api";
+import Notification from "../../shared/components/UIElements/Notification";
 
-// const initialValues = {
-//   id: "1",
-//   name: "1",
-//   email: "1",
-//   password: "1",
-//   phone: "1",
-//   role: "1",
-//   image: "1",
-// };
 
 function EditUser() {
   const history = useHistory();
@@ -22,6 +15,7 @@ function EditUser() {
   let {id} = useParams()
   const [data, setData] = useState({});
   // const[initialValues, setInitialValues] = useState();
+  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
   
   const [loading, setLoading] = useState(true);
 
@@ -44,6 +38,7 @@ function EditUser() {
     setLoading(true);
     // console.log(id);
     const getUser = async () => {
+      
       const res = await api({
         // url: `/users/user/${id}`,
         url: `/users/user/${id}`,
@@ -51,6 +46,11 @@ function EditUser() {
       });
       try {
         if (res.success) {
+          setNotify({
+            isOpen: true,
+            message: 'Edit user successfully!',
+            type: 'success'
+        })
           setData(res.user);
           setLoading(false);
         }
@@ -59,6 +59,7 @@ function EditUser() {
       }
     };
     getUser();
+  
   }, [id]);
   // console.log("data ", data) 
 
@@ -71,7 +72,7 @@ function EditUser() {
   const handleSubmit = async (event) => {
     event.preventDefault()
     console.log("values: ", values);
-    
+    if (validate()) {
     const res = await api({
       url: `/users/${id}`,
       method: "PATCH",
@@ -85,6 +86,7 @@ function EditUser() {
     } catch (error) {
       console.log(error);
     }
+  }
   };
 
 
@@ -106,7 +108,7 @@ function EditUser() {
   return (
     <>
       <h1>Edit User</h1>
-      <div></div>
+      
       {data && !loading && (<Form onSubmit={handleSubmit}>
         <Grid container>
           <Grid item xs={8}>
@@ -138,6 +140,10 @@ function EditUser() {
           </Grid>
         </Grid>
       </Form>)}
+      <Notification
+                notify={notify}
+                setNotify={setNotify}
+            />
     </>
   );
 }

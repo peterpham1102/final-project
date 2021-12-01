@@ -11,6 +11,7 @@ import LoginPage from "./pages/Login/LoginPage";
 import SellerPage from "./pages/Seller/SellerPage";
 import ShipperPage from "./pages/Shipper/ShipperPage";
 import TestPage from "./TestPage";
+import TestPage1 from "./TestPage1";
 import api from "./shared/util/api";
 
 export const AuthContext = createContext();
@@ -51,6 +52,7 @@ const App = () => {
   }, []);
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("react-use-cart")
     setUser(null);
   };
   const authValue = {
@@ -122,6 +124,9 @@ const App = () => {
           </Route>
           <Route path="/test">
             <TestPage />
+          </Route>
+          <Route path="/test1">
+            <TestPage1 />
           </Route>
 
           {/* <Route path="/" >

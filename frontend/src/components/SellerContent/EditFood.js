@@ -112,7 +112,7 @@ function EditFood() {
               onChange={handleInputChange}
               error={errors.price}
             />
-            <div>
+            <div style={{textAlign: 'center'}}>
               <Controls.Button type="submit" text="Submit" />
             </div>
             

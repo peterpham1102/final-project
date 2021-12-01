@@ -1,6 +1,6 @@
 import { Form, useForm } from "../../shared/hooks/useForm";
 import { Grid, MenuItem, makeStyles } from "@material-ui/core";
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useRef } from "react";
 
 import Controls from "../../shared/components/UIElements/Controls";
 import api from "../../shared/util/api";
@@ -9,13 +9,14 @@ import { useHistory } from "react-router";
 
 // import storage from "../firebase";
 
-const useStyles = makeStyles((theme) => ({}));
+// const useStyles = makeStyles((theme) => ({}));
 
 const initialValues = {
   id: "",
   name: "",
   email: "",
   password: "",
+  confirmPassword: "",
   phone: "",
   role: "",
   image: "",
@@ -26,7 +27,9 @@ function CreateUser(props) {
   const [url, setUrl] = useState("");
   const [progress, setProgress] = useState();
   const history = useHistory();
-
+  const confirmPasswordRef = useRef();
+  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
+  const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
   useEffect(() => {
     console.log("image: ", image)
     if (image) {
@@ -56,41 +59,25 @@ function CreateUser(props) {
   }, [image]);
   console.log(image)
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    console.log(url)
-    const res = await api({
-      url: "users/signup",
-      method: "POST",
-      data: {
-        ...values,
-        image: url,
-      },
-    });
-    try {
-      if (res.success) {
-        console.log("Create account successfully!");
-        history.push("/");
-        resetForm();
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     if ("name" in fieldValues)
       temp.name = fieldValues.name ? "" : "This field is required.";
-    if ("email" in fieldValues)
-      temp.email = /$^|.+@.+..+/.test(fieldValues.email)
-        ? ""
-        : "Email is not valid.";
+    if ("email" in fieldValues) {
+      temp.email = fieldValues.email ? "" : "This field is required.";
+      if (fieldValues.email)
+        temp.email = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(fieldValues.email)
+          ? ""
+          : "Email is not valid.";
+    }
+
     if ("password" in fieldValues)
       temp.password =
         fieldValues.password.length > 5 ? "" : "Minimum 6 numbers required.";
-    // if ("confirmPassword" in fieldValues)
-    //   temp.confirmPassword = fieldValues.password ? "" : "Confirm password must match the password"
+    if ("confirmPassword" in fieldValues)
+      temp.confirmPassword = fieldValues.confirmPassword ? "" : "This field is required.";
+    if ("phone" in fieldValues)
+      temp.phone = fieldValues.phone ? "" : "This field is required."
     if ("role" in fieldValues)
       temp.role = fieldValues.role.length != 0 ? "" : "This field is required.";
     setErrors({
@@ -99,6 +86,32 @@ function CreateUser(props) {
 
     if (fieldValues === values) return Object.values(temp).every((x) => x === "");
   };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log(url)
+    if (validate()) {
+      const res = await api({
+        url: "users/signup",
+        method: "POST",
+        data: {
+          ...values,
+          image: url,
+        },
+      });
+      try {
+        if (res.success) {
+          console.log("Create account successfully!");
+          history.push("/");
+          resetForm();
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
+
 
 
   const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
@@ -118,6 +131,7 @@ function CreateUser(props) {
               value={values.name}
               onChange={handleInputChange}
               error={errors.name}
+
             />
 
             <Controls.Input
@@ -128,7 +142,7 @@ function CreateUser(props) {
               value={values.email}
               onChange={handleInputChange}
               error={errors.email}
-              autoComplete="off"
+
             />
             <Controls.Input
               id="password"
@@ -145,6 +159,7 @@ function CreateUser(props) {
               type="password"
               label="Confirm Password"
               name="confirmPassword"
+              // ref={confirmPasswordRef}
               value={values.confirmPassword}
               onChange={handleInputChange}
               error={errors.confirmPassword}
@@ -154,23 +169,25 @@ function CreateUser(props) {
               variant="contained"
               component="label"
               text="Upload Image"
+              style={{left: 0}}
             >
-            <input
-              id="image"
-              accept="image/*"
-              type="file"
-              hidden
-              name="image"
-              value={values.image}
-              onChange={(e) => setImage(e.target.files[0])}
-            />
+              <input
+                id="image"
+                accept="image/*"
+                type="file"
+                hidden
+                name="image"
+                value={values.image}
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+
             </Controls.Button>
 
             <div>
               <img src={url || "http://via.placeholder.com/300"} height="300px" width="300px" alt='user-image' />
             </div>
             <div>
-      
+
             </div>
 
             <Controls.Input
@@ -195,7 +212,7 @@ function CreateUser(props) {
               <MenuItem value="shipper">Shipper</MenuItem>
             </Controls.Select>
 
-            <div>
+            <div style={{textAlign: 'center'}}>
               <Controls.Button type="submit" text="Submit" />
             </div>
           </Grid>

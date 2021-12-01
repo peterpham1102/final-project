@@ -16,6 +16,7 @@ const initialValues = {
   image: "",
   description: "",
   price: "",
+  category: '',
   store_id: ''
 };
 
@@ -24,6 +25,7 @@ function CreateFood() {
   const [url, setUrl] = useState("");
   const [progress, setProgress] = useState();
   const [loading, setLoading] = useState(true);
+  const [categoriesData, setCategoriesData] = useState()
 
   const history = useHistory();
   const [storeId, setStoreId] = useState();
@@ -60,6 +62,27 @@ function CreateFood() {
   console.log(image);
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      setLoading(true);
+      try {
+        const res = await api({
+          url: "categories",
+          method: "GET",
+        });
+
+          setCategoriesData(res.categories);
+          console.log("res ", res.categories)
+          setLoading(false);
+        
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchCategories();
+    
+  }, [])
+
+  useEffect(() => {
     const fetchUser = async () => {
       setLoading(true);
       try {
@@ -75,16 +98,21 @@ function CreateFood() {
       }
     };
     fetchUser();
-  }, [storeId]);
+  }, []);
+
+
+  console.log("categoriesData ", categoriesData)
 
   const handleSubmit = async (event) => {
-    event.preventDefault();  
+    event.preventDefault();
     console.log(url);
+    if(validate()) {
     const res = await api({
       url: "foods",
       method: "POST",
       data: {
         ...values,
+        categories_id: values.category,
         image: url,
         store_id: storeId
       },
@@ -98,12 +126,22 @@ function CreateFood() {
     } catch (err) {
       console.log(err);
     }
+  }
   };
 
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     if ("name" in fieldValues)
       temp.name = fieldValues.name ? "" : "This field is required.";
+    if ("description" in fieldValues)
+      temp.description = fieldValues.description ? "" : "This field is required.";
+    if ("price" in fieldValues)
+      temp.price = fieldValues.price ? "" : "This field is required.";
+    if ("category" in fieldValues)
+      temp.category = fieldValues.category ? "" : "This field is required.";
+
+
+
     
     setErrors({
       ...temp,
@@ -152,6 +190,35 @@ function CreateFood() {
               autoComplete="off"
             />
             
+              <Controls.Select
+              name="category"
+              label="Category"
+              value={values.category}
+              onChange={handleInputChange}
+              error={errors.category}
+              // options={categoriesData}
+              >
+              {!loading && categoriesData && categoriesData.map(item => (
+                <MenuItem key={item._id} value={item._id}>{item.name}</MenuItem>
+                ))}
+                </Controls.Select>
+
+             
+            {/* <Controls.Select
+              name="category"
+              label="Category"
+              value={values.category}
+              onChange={handleInputChange}
+              error={errors.category}
+              options={categoriesData}
+            /> */}
+              {/* {!loading && categoriesData.map(item => (
+                <MenuItem key={item._id} value={item._id}>{item.name}</MenuItem>
+              ))} */}
+              
+           
+
+
 
             <Controls.Button
               variant="contained"
@@ -177,10 +244,10 @@ function CreateFood() {
                 alt="food-image"
               />
             </div>
-            
 
-           
-            <div>
+
+
+            <div style={{textAlign: 'center'}}>
               <Controls.Button type="submit" text="Submit" />
             </div>
           </Grid>

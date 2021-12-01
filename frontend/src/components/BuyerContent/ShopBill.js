@@ -1,8 +1,11 @@
 import {
+  Card,
+  CardContent,
   CardMedia,
   Grid,
   List,
   ListItem,
+  Paper,
   Typography,
   makeStyles,
 } from "@material-ui/core";
@@ -14,29 +17,37 @@ import Controls from "../../shared/components/UIElements/Controls";
 import api from "../../shared/util/api";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: "#ffffff",
-  },
-  title: {
-    margin: theme.spacing(2),
-  },
-  foodName: {
-    margin: theme.spacing(3),
-  },
-  list: {},
-  button: {},
-  right: {
-    display: "flex",
+  card: {
+    // backgroundColor: "#ffffff",
+    // position: "sticky",
+    // marginTop: theme.spacing(10),
+    // marginRight: theme.spacing(3)
+
+    background: "white",
+    // position: "-webkit-sticky",
+    position: "sticky",
+    top: theme.spacing(10),
+    bottom: 20,
+    paddingTop: "40px",
+    paddingBottom: "40px",
+    // zIndex: 5,
   },
 }));
 
-function ShopBill() {
+function ShopBill({data}) {
   const classes = useStyles();
   return (
-    <div>
-      
-    </div>
-  )
+    <>
+      <Card elevation={2} className={classes.card}>
+        <CardContent>
+          <Typography>
+              Order summary
+          </Typography>
+          
+        </CardContent>
+      </Card>
+    </>
+  );
 }
 
-export default ShopBill
+export default ShopBill;

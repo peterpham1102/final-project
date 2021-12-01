@@ -12,6 +12,9 @@ import ManageStore from "./ManageStore";
 import ManageUser from "./ManageUser";
 import React from "react";
 import Statistics from "./Statistics";
+import ManageCategory from "./ManageCategory";
+import CreateCategory from "../SellerContent/CreateCategory";
+import EditCategory from "./EditCategory";
 
 // import LeftBar from "../../shared/util/LeftBar/LeftBar";
 
@@ -22,12 +25,16 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(5),
       marginLeft: theme.spacing(1),
     },
-    marginLeft: theme.spacing(3),
+    marginLeft: theme.spacing(8),
     marginRight: theme.spacing(3),
+    
   },
 
   container: {
     height: "100vh",
+    [theme.breakpoints.down("sm")]: {
+      height: "175vh",
+    },
     color: "white",
     paddingTop: theme.spacing(12),
     backgroundColor: theme.palette.primary.main,
@@ -89,6 +96,14 @@ function AdminContent() {
                   </Typography>
                 </div>
               </Link>
+              <Link to="/categories" style={{ textDecoration: "none" }}>
+                <div className={classes.item}>
+                  <Store className={classes.icon} />
+                  <Typography className={classes.text}>
+                    Manage Category
+                  </Typography>
+                </div>
+              </Link>
               <Link to="/statistics" style={{ textDecoration: "none" }}>
                 <div className={classes.item}>
                   <Insights  className={classes.icon} />
@@ -105,8 +120,11 @@ function AdminContent() {
               <Route exact path="/createUser" component={CreateUser} />
               <Route exact path="/editUser/:id" component={EditUser} />
               <Route exact path="/stores" component={ManageStore} />
+              <Route exact path="/categories" component={ManageCategory} />
+              <Route exact path="/createCategory" component={CreateCategory} />
+              <Route exact path="/editCategory/:id" component={EditCategory} />
               
-              <Route exact path="/editStores/:id" component={EditStore} />
+              {/* <Route exact path="/editStores/:id" component={EditStore} /> */}
               <Route exact path="/statistics" component={Statistics} />
               <Route exact path="/export" component={ExportData} />
               <Route exact path="/import" component={ImportData} />

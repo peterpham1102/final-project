@@ -5,7 +5,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Controls from "../../shared/components/UIElements/Controls";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import EditUser from "./EditUser";
+// import EditUser from "./EditUser";
 import { Link } from "react-router-dom";
 import { Search } from "@material-ui/icons";
 import api from "../../shared/util/api";
@@ -76,10 +76,10 @@ function ManageUser() {
     let target = e.target;
     setFilterFn({
         fn: items => {
-            if (target.value == "")
+            if (target.value === "")
                 return items;
             else
-                return items.filter(x => x.name.toLowerCase().includes(target.value));
+                return items.filter(x => x.email.toLowerCase().includes(target.value));
         }
     })
 }
@@ -136,11 +136,7 @@ function ManageUser() {
                     <EditIcon />
                   </Controls.ActionButton>
                 </Link>
-                <Link>
-                  <Controls.ActionButton>
-                    <DeleteIcon />
-                  </Controls.ActionButton>
-                </Link>
+                
               </TableCell>
             </TableRow>
           ))}

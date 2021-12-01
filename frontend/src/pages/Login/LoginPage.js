@@ -14,6 +14,7 @@ import Controls from "../../shared/components/UIElements/Controls";
 import { Redirect } from "react-router-dom";
 import api from "../../shared/util/api";
 import { makeStyles } from "@material-ui/core";
+import Notification from "../../shared/components/UIElements/Notification";
 
 // import {LockOutlinedIcon} from "@mui/icons-material";
 
@@ -35,6 +36,7 @@ const initialValues = {
 const theme = createTheme();
 
 function LoginPage() {
+  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
   // const classes = useStyles();
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
@@ -49,7 +51,7 @@ function LoginPage() {
       return Object.values(temp).every((x) => x === "");
   };
   const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
-    useForm(initialValues, false, validate);
+    useForm(initialValues, true, validate);
 
   const authValue = useContext(AuthContext);
   const { user, login } = authValue;
@@ -63,28 +65,35 @@ function LoginPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
-    try {
+    if (validate()){
+    
       const res = await api({
         url: "users/login",
         method: "POST",
         data: values,
       });
-
+      try {
       if (res.success) {
         setLoading(false);
         console.log(res);
         login(res);
         return res;
       } else {
+        setNotify({
+          isOpen: true,
+          message: 'Invalid credentials, please try again!',
+          type: 'error'
+      })
         setLoading(false);
       }
     } catch (error) {
-      alert(error);
+      
 
       setLoading(false);
 
       console.log("error api: ", error);
     }
+  }
   };
 
   return (
@@ -130,7 +139,7 @@ function LoginPage() {
                 error={errors.password}
                 fullWidth
               />
-              <div>
+              <div style={{textAlign: 'center'}}>
                 <Controls.Button
                   type="submit"
                   text="Login"
@@ -140,11 +149,15 @@ function LoginPage() {
                 />
               </div>
             </Form>
+            
           </Box>
         </Box>
         {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
       </Container>
-      
+      <Notification
+                notify={notify}
+                setNotify={setNotify}
+            />
     </ThemeProvider>
   );
 }

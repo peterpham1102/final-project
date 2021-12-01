@@ -8,11 +8,11 @@ import {
 } from "@material-ui/core";
 import { React, useEffect, useState } from "react";
 
-import AddIcon from "@mui/icons-material/Add";
+// import AddIcon from "@mui/icons-material/Add";
 import Controls from "../../shared/components/UIElements/Controls";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import EditStore from "./EditStore";
+// import EditStore from "./EditStore";
 import { Link } from "react-router-dom";
 import { Search } from "@material-ui/icons";
 import api from "../../shared/util/api";
@@ -128,7 +128,7 @@ function ManageStore() {
               </TableCell>
               <TableCell>{item.status}</TableCell>
               <TableCell>
-                <Link to={"/editStore/" + item.key}>
+                {/* <Link to={"/editStore/" + item.key}>
                   <Controls.ActionButton>
                     <EditIcon />
                   </Controls.ActionButton>
@@ -137,7 +137,7 @@ function ManageStore() {
                   <Controls.ActionButton>
                     <DeleteIcon />
                   </Controls.ActionButton>
-                </Link>
+                </Link> */}
               </TableCell>
             </TableRow>
           ))}

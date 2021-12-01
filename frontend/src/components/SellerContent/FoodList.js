@@ -91,7 +91,7 @@ function FoodList() {
             <Controls.Button text="Edit Store" />
           </Link>
         )} */}
-      {!loading && <Typography variant="h5">Most Popular Foods</Typography>}
+      {!loading && <Typography variant="h5" style={{paddingTop: 20}}>Most Popular Foods</Typography>}
       {!loading &&
         foodData &&
         foodData.map((item) => (
@@ -104,7 +104,9 @@ function FoodList() {
         ))}
       {!loading && (
         <Link to={"/editStore/" + storeId}>
-          <Controls.Button text="Edit Store" />
+          <div style={{textAlign: 'center'}}>
+          <Controls.Button text="Edit Store"  />
+          </div>
         </Link>
       )}
       {/* <Link to={"/editStore/" + storeId}>

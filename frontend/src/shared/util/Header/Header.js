@@ -9,12 +9,13 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { Cancel, Mail, Notifications, Search } from "@material-ui/icons";
-import { React, useContext, useState } from "react";
+import { React, useContext, useState, useEffect } from "react";
 
 import { AuthContext } from "../../../App";
 import Logo from "../../../wtf_logo.jpg";
 import LogoutIcon from '@mui/icons-material/Logout';
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
+import api from "../api";
 
 // import {LogoutIcon} from '@mui/icons-material';
 
@@ -105,61 +106,67 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 function Header() {
-
   const authValue = useContext(AuthContext);
+  const [loading, setLoading] = useState(true)
   const { logout } = authValue;
   const history = useHistory();
-
   const [open, setOpen] = useState(false);
   const classes = useStyles({ open });
+  const { user} = authValue;
+  const [userAvatar, setUserAvatar] = useState();
+
+  useEffect(() => {
+    const fetchUserById = async() => {
+      setLoading(true)
+      try {
+        const res = await api({
+          url: `users/user/${user.userId}`,
+          method: "GET"
+        });
+          setUserAvatar(res.user.image)
+          setLoading(false);
+        
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    fetchUserById()
+  },[user.userId])
   return (
     <AppBar>
       <Toolbar className={classes.toolbar}>
+        
         <div className={classes.logo}>
+          <Link to="/">
           <img src={Logo} alt="WTFood Logo" height="40rem" width="40rem" />
+          </Link>
           <Typography variant="h6" className={classes.bannerLg}>
-            What The Food
-          </Typography>
-          <Typography variant="h6" className={classes.bannerSm}>
             WTFood
           </Typography>
+          
         </div>
-          {/* <Typography variant="h6" className={classes.bannerLg}>
-            What The Food
-          </Typography>
-          <Typography variant="h6" className={classes.bannerSm}>
-            WTFood
-          </Typography> */}
 
-        {/* <div className={classes.categories}>
-          <Typography variant="h6">Drinks</Typography>
-          </div>
-          <div className={classes.categories}>
-          <Typography variant="h6">Cafe</Typography>
-          </div>
-          <div className={classes.categories}>
-          <Typography variant="h6">Fast Food</Typography>
-        </div> */}
-        <div className={classes.search}>
+        
+        {/* <div className={classes.search}>
           <Search />
           <InputBase placeholder="Search..." className={classes.input} />
           <Cancel className={classes.cancel} onClick={() => setOpen(false)} />
-        </div>
+        </div> */}
         <div className={classes.icons}>
-          <Search
+          {/* <Search
             className={classes.searchButton}
             onClick={() => setOpen(true)}
-          />
+          /> */}
         <Badge badgeContent={4} color="secondary" className={classes.badge}>
             <Mail />
           </Badge>
           <Badge badgeContent={2} color="secondary" className={classes.badge}>
             <Notifications />
           </Badge>
-          <Avatar
+          {!loading && userAvatar && <Avatar
             alt="Shadow Fiend"
-            src="https://www.wallpapertip.com/wmimgs/92-921303_data-src-w-full-c-3-1-539439.jpg"
-          />
+            src={userAvatar}
+          />}
           <LogoutIcon className={classes.logout} onClick={()=> {
             logout();
             history.push("/");

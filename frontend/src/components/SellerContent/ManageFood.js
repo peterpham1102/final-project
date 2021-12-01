@@ -6,7 +6,7 @@ import {
   Toolbar,
   makeStyles,
 } from "@material-ui/core";
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useContext } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import Controls from "../../shared/components/UIElements/Controls";
@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import { Search } from "@material-ui/icons";
 import api from "../../shared/util/api";
 import useTable from "../../shared/hooks/useTable";
+import { AuthContext } from "../../App";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -35,6 +36,11 @@ function ManageFood() {
   const classes = useStyles();
   const [foodData, setFoodData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [storeId, setStoreId] = useState()
+  const authValue = useContext(AuthContext);
+  const { user } = authValue;
+
+
 
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
@@ -48,35 +54,44 @@ function ManageFood() {
   });
 
   useEffect(() => {
-    const fetchFoodData = async () => {
+    const fetchUser = async () => {
       setLoading(true);
       try {
         const res = await api({
-          url: "foods",
+          url: `users/user/${user.userId}`,
           method: "GET",
         });
-        console.log(res);
-        console.log(res.foods);
+        setStoreId(res.user.store_owned_id);
+        console.log("(res.user.store_owned_id ", res.user.store_owned_id);
+        setLoading(false);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchUser();
+  }, []);
 
-        // if(res.success) {
-        // console.log("Hello ", res)
+  useEffect(() => {
+    const fetchFoodsByStore = async () => {
+      setLoading(true);
+      try {
+        const res = await api({
+          url: `foods/store/${storeId}`,
+          
+          method: "GET",
+        });
         res.foods.forEach((element) => {
           element.key = element._id;
         });
-
-        // console.log(res.foods);
         setFoodData(res.foods);
-        // console.log(foodData);
         setLoading(false);
-
-        // }
-      } catch (error) {
-        console.log("error: " + error);
-        setLoading(false);
+      } catch (err) {
+        console.log("err ", err);
       }
     };
-    fetchFoodData();
-  }, [api]);
+    fetchFoodsByStore();
+  }, [storeId]);
+
 
   const headCells = [
     { id: "name", label: "Food Name" },
