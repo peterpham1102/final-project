@@ -103,7 +103,6 @@ function CreateUser(props) {
         temp.email = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(fieldValues.email)
           ? ""
           : "Email is not valid.";
-
       }
       if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(fieldValues.email))
         temp.email = arrEmail.includes(fieldValues.email)
