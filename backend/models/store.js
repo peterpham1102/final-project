@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
+const STATUS = {
+  ACTIVE: 'active',
+  INACTIVE: 'inactive'
+};
+
 const StoreSchema = new Schema(
   {
     name: { type: String, required: true },
@@ -13,7 +18,12 @@ const StoreSchema = new Schema(
     orders_id: [{type: mongoose.Types.ObjectId, ref: 'Order'}],
     rating: { type: Number },
     owner_id: { type: mongoose.Types.ObjectId, ref: 'User', required: true },
-    status: { type: String, required: true },
+    status: {type: String, required: true,
+      enum: [
+        STATUS.ACTIVE,
+        STATUS.INACTIVE
+      ]
+    },
     feedbacks_id: [{type: mongoose.Types.ObjectId, ref: 'Feedback'}]
   },
   {

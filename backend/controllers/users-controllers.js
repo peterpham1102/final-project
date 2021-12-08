@@ -320,7 +320,7 @@ const exportUsers = async(req, res, next) => {
   let exportedUsers;
   try {
     if(role === 'admin' && userId) {
-      exportedUsers = await User.find({role: ['student', 'manager', 'coordinator', 'guest']}).select({
+      exportedUsers = await User.find({role: ['seller', 'buyer', 'shipper']}).select({
         "id": 1,
         "name": 1,
         "email": 1,

@@ -13,7 +13,16 @@ router.get('/store/:id', storeControllers.getStoreById);
 router.get('/user/:id', storeControllers.getStoreByUserId);
 router.get('/search/:key', storeControllers.searchStoreByFoodName);
 
-router.post('/', storeControllers.createStore);
+router.post('/',checkRole("seller"),
+  [
+  check("name").not().isEmpty(),
+  check("location").not().isEmpty(),
+  check("description").not().isEmpty(),
+  
+  check("image").not().isEmpty(),
+  ]
+, storeControllers.createStore);
 router.patch('/:id', storeControllers.updateStore);
+router.patch('/status/:id', storeControllers.updateStoreStatus);
 
 module.exports = router;

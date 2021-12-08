@@ -24,7 +24,7 @@ const createFood = async (req, res, next) => {
     image,
     price,
     orders_count: 0,
-    status: "Active",
+    status: "active",
   });
 
 
@@ -101,7 +101,7 @@ const createFood = async (req, res, next) => {
 const getFoods = async (req, res, next) => {
   let foods;
   try {
-    foods = await Food.find().sort({ created_at: -1 });
+    foods = await Food.find().sort({ orders_count: -1 });
     
   } catch (err) {
     const error = new HttpError("Fetching data failed, please try again!", 500);
@@ -143,7 +143,7 @@ const getFoodsByStoreId = async (req, res, next) => {
   try {
     storeWithFoods = await Store.findById(storeId)
     .populate('foods_id')
-    .sort({ created_at: -1 });
+    .sort({ orders_count: -1  });
   } catch (err) {
     console.log("err: ", err);
     const error = new HttpError("Fetching data failed, please try again!", 500);
@@ -209,6 +209,75 @@ const updateFood = async (req, res, next) => {
   
 }
 
+const getFoodsByCategoryId = async (req, res, next) => {
+  const categoryId = req.params.id;
+  let categoryWithFoods;
+  try {
+    categoryWithFoods = await Category.findById(categoryId)
+    .populate('foods_id')
+    .sort({ created_at: -1 });
+  } catch (err) {
+    console.log("err: ", err);
+    const error = new HttpError("Fetching data failed, please try again!", 500);
+    res.json({
+      success: 0,
+      message: "Failed",
+    });
+    return next(error);
+  }
+
+  res.json({
+    success: 1,
+    foods: categoryWithFoods.foods_id.map((food) =>
+      food.toObject({ getters: true })
+    ),
+  });
+}
+
+const updateFoodStatus = async (req, res, next) => {
+  const userId = req.userData.userId;
+  const foodId = req.params.id
+  const { status } = req.body;
+  let food;
+  try {
+    food = await Food.findById(foodId);
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not update status food!",
+      500
+    );
+    return next(error);
+  }
+
+
+  if (
+    !food ||
+    food.length === 0
+  ) {
+    return next(
+      new HttpError("Could not find food for provided user id", 404)
+    );
+  }
+
+  food.status = status;
+  try {
+    await food.save();
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not update order!",
+      500
+    );
+    return next(error);
+  }
+
+  res.status(200).json({
+    success: 1,
+    food: food.toObject(),
+  });
+};
+
+
+
 
 
 
@@ -217,3 +286,5 @@ exports.getFoods = getFoods;
 exports.getFoodById = getFoodById;
 exports.getFoodsByStoreId = getFoodsByStoreId
 exports.updateFood = updateFood;
+exports.getFoodsByCategoryId = getFoodsByCategoryId;
+exports.updateFoodStatus = updateFoodStatus;

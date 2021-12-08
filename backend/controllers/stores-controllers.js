@@ -31,7 +31,7 @@ const createStore = async(req, res, next) => {
     image,
     rating,
     owner_id: req.userData.userId,
-    status: "Active"
+    status: "active"
   });
 
   let user;
@@ -64,11 +64,12 @@ const createStore = async(req, res, next) => {
     await sess.commitTransaction();
 
   } catch (err) {
-    const error = new HttpError(
-      "Creating store failed, please try again.",
-      500
-    );
-    return next(error);
+    // const error = new HttpError(
+    //   "Creating store failed, please try again.",
+    //   500
+    // );
+    // return next(error);
+    console.log(err)
   }
   res.status(201).json({
     success: 1,
@@ -210,6 +211,45 @@ const searchStoreByFoodName = async (req, res, next) => {
 
 }
 
+const updateStoreStatus = async (req, res, next) => {
+  const storeId = req.params.id
+  const { status } = req.body;
+  let store;
+  try {
+    store = await Store.findById(storeId);
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not update status store!",
+      500
+    );
+    return next(error);
+  }
+
+  if (
+    !store ||
+    store.length === 0
+  ) {
+    return next(
+      new HttpError("Could not find store for provided user id", 404)
+    );
+  }
+
+  store.status = status;
+  try {
+    await store.save();
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not update order!",
+      500
+    );
+    return next(error);
+  }
+
+  res.status(200).json({
+    success: 1,
+    store: store.toObject(),
+  });
+};
 
 
 
@@ -221,3 +261,4 @@ exports.getStoreById = getStoreById;
 exports.getStoreByUserId = getStoreByUserId;
 exports.updateStore = updateStore;
 exports.searchStoreByFoodName = searchStoreByFoodName;
+exports.updateStoreStatus = updateStoreStatus;

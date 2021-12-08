@@ -15,6 +15,28 @@ const createCategory = async (req, res, next) => {
     name,
     description,
   });
+  
+  let existingCategory;
+  try {
+    existingCategory = await Category.findOne({ name: name });
+  } catch (err) {
+    const error = new HttpError(
+      "Create category failed, please try again later.",
+      500
+    );
+    return next(error);
+  }
+
+  if (existingCategory) {
+    const error = new HttpError(
+      "Category has already existed, please try again",
+      422
+    );
+    return next(error);
+  }
+  
+
+
 
   try {
     await createdCategory.save();
@@ -25,7 +47,8 @@ const createCategory = async (req, res, next) => {
 
   res.status(201).json({
     message: 'Created successfully',
-    category: createdCategory
+    category: createdCategory,
+    success: 1
   })
 };
 
