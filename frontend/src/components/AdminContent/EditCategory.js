@@ -1,6 +1,7 @@
 import { Form, useForm } from "../../shared/hooks/useForm";
-import { Grid, 
- } from "@material-ui/core";
+import {
+  Grid,
+} from "@material-ui/core";
 import { React, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
@@ -12,11 +13,11 @@ import Notification from "../../shared/components/UIElements/Notification";
 function EditCategory() {
   const history = useHistory();
   // const id = window.location.pathname.split("/")[3];
-  let {id} = useParams()
+  let { id } = useParams()
   const [data, setData] = useState({});
   // const[initialValues, setInitialValues] = useState();
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
-  
+
   const [loading, setLoading] = useState(true);
 
 
@@ -38,7 +39,7 @@ function EditCategory() {
     setLoading(true);
     // console.log(id);
     const getCategory = async () => {
-      
+
       const res = await api({
         // url: `/categories/category/${id}`,
         url: `/categories/${id}`,
@@ -46,21 +47,21 @@ function EditCategory() {
       });
       try {
         // if (res.success) {
-          
-          setData(res.category);
-          setLoading(false);
+
+        setData(res.category);
+        setLoading(false);
         // }
       } catch (err) {
         console.log(err);
       }
     };
     getCategory();
-  
+
   }, [id]);
   // console.log("data ", data) 
 
   const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
-  useForm(data, true, validate);
+    useForm(data, true, validate);
 
   // console.log("init ", initialValues) 
 
@@ -69,51 +70,51 @@ function EditCategory() {
     event.preventDefault()
     console.log("values: ", values);
     if (validate()) {
-    const res = await api({
-      url: `/categories/${id}`,
-      method: "PATCH",
-      data: values
-    });
-    try {
-      // if (res.success) {
+      const res = await api({
+        url: `/categories/${id}`,
+        method: "PATCH",
+        data: values
+      });
+      try {
+        // if (res.success) {
         console.log("Update successfully");
         setNotify({
           isOpen: true,
           message: 'Edit category successfully!',
           type: 'success'
-      })
+        })
         history.push("/categories");
-      // }
-    } catch (error) {
-      console.log(error);
+        // }
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
   };
 
 
 
- 
-  console.log("data1 ", data) 
 
-  
+  console.log("data1 ", data)
+
+
 
   // const initialValues={
   //   name: data.name,
   //   phone: data.phone,
   //   // image: data.image
   // }
-  
 
-  
+
+
 
   return (
     <>
       <h1>Edit Category</h1>
-      
+
       {data && !loading && (<Form onSubmit={handleSubmit}>
         <Grid container>
           <Grid item xs={8}>
-            
+
             <Controls.Input
               id="name"
               type="string"
@@ -137,14 +138,14 @@ function EditCategory() {
             <div>
               <Controls.Button type="submit" text="Submit" />
             </div>
-            
+
           </Grid>
         </Grid>
       </Form>)}
       <Notification
-                notify={notify}
-                setNotify={setNotify}
-            />
+        notify={notify}
+        setNotify={setNotify}
+      />
     </>
   );
 }

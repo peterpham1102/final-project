@@ -183,16 +183,8 @@ function BuyerOrders() {
               <TableCell>{item.destination}</TableCell>
               <TableCell>{item.payment_method}</TableCell>
               <TableCell>{item.status}</TableCell>
-              { item.status === "Processing" || item.status === "Pending"  && (<TableCell>
-                {/* <Controls.Button
-                  style={{ backgroundColor: '#3ef20c', color: '#FFFFFF' }}
-                  type="submit"
-                  text="Received"
-
-                  // backgroundColor="#3ef20c"
-                  onClick={() => handleChangeOrderStatus(item.key, "Delivered")}
-                /> */}
-
+              { item.status === "Processing"  && (<TableCell>
+                
                 <Controls.Button
                   style={{ backgroundColor: '#f20c0c', color: '#FFFFFF' }}
                   type="submit"
@@ -203,6 +195,19 @@ function BuyerOrders() {
                 />
 
               </TableCell>) }
+              {/* { item.status === "Processing" || item.status === "Delivering"  && (<TableCell>
+                
+                <Controls.Button
+                  style={{ backgroundColor: '#f20c0c', color: '#FFFFFF' }}
+                  type="submit"
+                  text="Cancel"
+
+                  // backgroundColor="#f20c0c"
+                  onClick={() => handleChangeOrderStatus(item.key, "Canceled")}
+                />
+
+              </TableCell>) } */}
+
 
               {item.status === "Delivering" && (
                 <TableCell>
@@ -215,14 +220,14 @@ function BuyerOrders() {
                   onClick={() => handleChangeOrderStatus(item.key, "Delivered")}
                 />
 
-                <Controls.Button
+                {/* <Controls.Button
                   style={{ backgroundColor: '#f20c0c', color: '#FFFFFF' }}
                   type="submit"
                   text="Cancel"
 
                   // backgroundColor="#f20c0c"
                   onClick={() => handleChangeOrderStatus(item.key, "Canceled")}
-                />
+                /> */}
 
               </TableCell>
               )}

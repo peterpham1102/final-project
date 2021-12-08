@@ -28,8 +28,8 @@ function CreateCategory(props) {
     let temp = { ...errors };
     if ("name" in fieldValues)
       temp.name = fieldValues.name ? "" : "This field is required.";
-    if ("decription" in fieldValues) 
-      temp.decription = fieldValues.decription ? "" : "This field is required.";
+    if ("description" in fieldValues) 
+      temp.description = fieldValues.description ? "" : "This field is required.";
     
     setErrors({
       ...temp,
@@ -40,7 +40,7 @@ function CreateCategory(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(url)
+    
     if (validate()) {
       const res = await api({
         url: "categories",
@@ -50,8 +50,8 @@ function CreateCategory(props) {
       try {
         if (res.success) {
           console.log("Create category successfully!");
-          history.push("/");
           resetForm();
+          history.push("/categories");
         }
       } catch (err) {
         console.log(err);
@@ -99,6 +99,7 @@ function CreateCategory(props) {
           </Grid>
         </Grid>
       </Form>
+      
     </>
   );
 }

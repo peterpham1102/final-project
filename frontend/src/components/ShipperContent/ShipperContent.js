@@ -3,6 +3,8 @@ import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import { Container, makeStyles } from "@material-ui/core";
 import { Grid, Typography } from "@mui/material";
 import React, { useEffect } from "react";
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import ReceiptIcon from '@mui/icons-material/Receipt';
 
 import { AuthContext } from "../../App";
 import ReceiveOrder from "./ReceiveOrder";
@@ -73,13 +75,13 @@ function ShipperContent() {
             <Container className={classes.container}>
               <Link to="/" style={{ textDecoration: "none" }}>
                 <div className={classes.item}>
-                  <AccountBox className={classes.icon} />
+                  <ReceiptLongIcon className={classes.icon} />
                   <Typography className={classes.text}>Incoming Order</Typography>
                 </div>
               </Link>
               <Link to="/orders" style={{ textDecoration: "none" }}>
                 <div className={classes.item}>
-                  <Store className={classes.icon} />
+                  <ReceiptIcon className={classes.icon} />
                   <Typography className={classes.text}>
                     My Orders
                   </Typography>

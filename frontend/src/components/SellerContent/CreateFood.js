@@ -126,6 +126,7 @@ function CreateFood() {
     } catch (err) {
       console.log(err);
     }
+    window.location.reload(true)
   }
   };
 
@@ -137,7 +138,11 @@ function CreateFood() {
       temp.description = fieldValues.description ? "" : "This field is required.";
     if ("price" in fieldValues)
       temp.price = fieldValues.price ? "" : "This field is required.";
-    if ("category" in fieldValues)
+      if (fieldValues.price)
+        temp.price = /^[0-9]*$/.test(fieldValues.price)
+          ? ""
+          : "Price requires numbers only";
+      if ("category" in fieldValues)
       temp.category = fieldValues.category ? "" : "This field is required.";
 
 

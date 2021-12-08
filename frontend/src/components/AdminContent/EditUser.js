@@ -46,11 +46,7 @@ function EditUser() {
       });
       try {
         if (res.success) {
-          setNotify({
-            isOpen: true,
-            message: 'Edit user successfully!',
-            type: 'success'
-        })
+          
           setData(res.user);
           setLoading(false);
         }
@@ -80,6 +76,11 @@ function EditUser() {
     });
     try {
       if (res.success) {
+        setNotify({
+          isOpen: true,
+          message: 'Edit user successfully!',
+          type: 'success'
+      })
         console.log("Update successfully");
         history.push("/");
       }
@@ -133,6 +134,7 @@ function EditUser() {
               onChange={handleInputChange}
               error={errors.phone}
             />
+            
             <div>
               <Controls.Button type="submit" text="Submit" />
             </div>

@@ -103,7 +103,7 @@ function FoodList() {
           />
         ))}
       {!loading && (
-        <Link to={"/editStore/" + storeId}>
+        <Link to={"/editStore/" + storeId} style={{ textDecoration: 'none' }}>
           <div style={{textAlign: 'center'}}>
           <Controls.Button text="Edit Store"  />
           </div>

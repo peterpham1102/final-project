@@ -74,14 +74,14 @@ function CreateStore() {
       if (res.success) {
         console.log("Create store successfully!");
         history.push("/");
-        
+        resetForm();
         
       }
     } catch (err) {
       console.log(err);
     }
     window.location.reload(true)
-    resetForm();
+    
   }
   };
 
@@ -189,6 +189,7 @@ function CreateStore() {
           </Grid>
         </Grid>
       </Form>
+      
     </>
   );
 }

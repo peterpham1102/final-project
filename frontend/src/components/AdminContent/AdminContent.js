@@ -2,6 +2,7 @@ import { AccountBox, Insights, Store } from "@mui/icons-material";
 import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import { Container, makeStyles } from "@material-ui/core";
 import { Grid, Typography } from "@mui/material";
+import CategoryIcon from '@mui/icons-material/Category';
 
 import CreateUser from "./CreateUser";
 import EditStore from "./EditStore";
@@ -13,7 +14,7 @@ import ManageUser from "./ManageUser";
 import React from "react";
 import Statistics from "./Statistics";
 import ManageCategory from "./ManageCategory";
-import CreateCategory from "../SellerContent/CreateCategory";
+import CreateCategory from "./CreateCategory";
 import EditCategory from "./EditCategory";
 
 // import LeftBar from "../../shared/util/LeftBar/LeftBar";
@@ -98,7 +99,7 @@ function AdminContent() {
               </Link>
               <Link to="/categories" style={{ textDecoration: "none" }}>
                 <div className={classes.item}>
-                  <Store className={classes.icon} />
+                  <CategoryIcon className={classes.icon} />
                   <Typography className={classes.text}>
                     Manage Category
                   </Typography>

@@ -94,7 +94,7 @@ function BuyerContent() {
           >
             My Order
           </Button> */}
-          <Link to={`/orders/user/${user.userId}`}>
+          <Link to={`/orders/user/${user.userId}`} style={{ textDecoration: 'none' }}>
             <Controls.Button >
               My Order
             </Controls.Button>

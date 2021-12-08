@@ -168,11 +168,11 @@ function ManageFood() {
                     <EditIcon />
                   </Controls.ActionButton>
                 </Link>
-                <Link>
+                {/* <Link>
                   <Controls.ActionButton>
                     <DeleteIcon />
                   </Controls.ActionButton>
-                </Link>
+                </Link> */}
               </TableCell>
             </TableRow>
           ))}
