@@ -34,6 +34,6 @@ router.patch(
   categoryControllers.updateCategory
 );
 
-router.delete("/:id", categoryControllers.deleteCategory);
+router.delete("/:id",checkRole('admin'), categoryControllers.deleteCategory);
 
 module.exports = router;

@@ -64,12 +64,12 @@ const createStore = async(req, res, next) => {
     await sess.commitTransaction();
 
   } catch (err) {
-    // const error = new HttpError(
-    //   "Creating store failed, please try again.",
-    //   500
-    // );
-    // return next(error);
-    console.log(err)
+    const error = new HttpError(
+      "Creating store failed, please try again.",
+      500
+    );
+    return next(error);
+    // console.log(err)
   }
   res.status(201).json({
     success: 1,
