@@ -117,7 +117,7 @@ function AdminContent() {
             {/* <ManageUser /> */}
             
             <Switch>
-              <Route exact path="/" exact component={ManageUser} />
+              <Route exact path="/" component={ManageUser} />
               <Route exact path="/createUser" component={CreateUser} />
               <Route exact path="/editUser/:id" component={EditUser} />
               <Route exact path="/stores" component={ManageStore} />
