@@ -110,7 +110,7 @@ function SellerContent() {
           <Grid item sm={9} xs={7} className={classes.root}>
             
             <Switch>
-              <Route exact path="/" exact component={ManageStore}  />
+              <Route exact path="/" component={ManageStore}  />
               
               <Route exact path="/editStore/:id" component={EditStore} />
               {/* <Route exact path="/details/" component={DetailStore} /> */}

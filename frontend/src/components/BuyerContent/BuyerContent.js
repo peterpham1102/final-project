@@ -112,9 +112,9 @@ function BuyerContent() {
           <Grid item sm={8} xs={8} className={classes.shopList}>
             
             <Switch>
-              <Route exact path="/" exact component={ShopList} />
+              <Route path="/" exact component={ShopList} />
               {/* <Route exact path="/" exact component={ShopList} /> */}
-              <Route exact path="/orders/user/:id" exact component={BuyerOrders} />
+              <Route path="/orders/user/:id" exact component={BuyerOrders} />
             </Switch>
           </Grid>
 
